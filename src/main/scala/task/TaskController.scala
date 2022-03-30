@@ -1,6 +1,10 @@
 package task
 import com.twitter.finatra.http.Controller
 import com.twitter.finagle.http.Request
-class TaskController extends Controller {
+import com.google.inject.Inject
+import task._
+class TaskController @Inject() (repo: ArrayTaskRepo) extends Controller {
   get("/ping") { request: Request => response.accepted("pong") }
+  get("/todos") { request: Request => repo.getAllTodos() }
+  post("/todos") { todo: Todo => repo.createTodo(todo) }
 }
