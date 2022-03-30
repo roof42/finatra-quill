@@ -18,12 +18,14 @@ class ArrayTaskRepo {
       case Todo(id, detail, _) => {
         val todo = todos.filter(_.id == id).apply(0)
         doings += Doing(id, detail)
+        todos.remove(todos.indexOf(todo))
       }
       case Doing(id, detail, _) => {
         val doing = doings.filter(_.id == id).apply(0)
         dones += Done(id, detail)
+        doings.remove(doings.indexOf(doing))
       }
-      case Done(id, detail, _) => { Done(id, detail, _) }
+      case Done(_, _, _) => { task }
     }
   }
 }
