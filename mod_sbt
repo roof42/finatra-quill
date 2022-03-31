@@ -1,0 +1,1 @@
+sbt --batch -Dsbt.server.forcestart=true run
