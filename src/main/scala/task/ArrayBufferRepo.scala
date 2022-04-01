@@ -1,6 +1,7 @@
 package task
 
 import scala.collection.mutable.Map
+import scala.util.Try
 
 class ArrayBufferRepo {
   val todoList: Map[Int, Todo] = Map.empty[Int, Todo]
@@ -30,22 +31,30 @@ class ArrayBufferRepo {
   }
 
   private def moveTaskToDone(id: Int): Option[Done] = {
-    doingList.get(id) match {
-      case Some(value) =>
-        val done = Done(value.id, value.detail)
+    val done = doingList.get(id) match {
+      case Some(doing) =>
+        doingList.remove(doing.id)
+        Some(Done(doing.id, doing.detail))
+      case None => None
+    }
+    done match {
+      case Some(done) =>
         doneList += (done.id -> done)
-        doingList.remove(value.id)
         Some(done)
       case None => None
     }
   }
 
   private def moveTaskToDoing(id: Int): Option[Doing] = {
-    todoList.get(id) match {
-      case Some(value) =>
-        val doing = Doing(value.id, value.detail)
+    val doing = todoList.get(id) match {
+      case Some(todo) =>
+        todoList.remove(todo.id)
+        Some(Doing(todo.id, todo.detail))
+      case None => None
+    }
+    doing match {
+      case Some(doing) =>
         doingList += (doing.id -> doing)
-        todoList.remove(value.id)
         Some(doing)
       case None => None
     }
