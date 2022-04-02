@@ -1,7 +1,6 @@
 package task
 
 import scala.collection.mutable.Map
-import scala.util.Try
 
 class ArrayBufferRepo {
   val todoList: Map[Int, Todo] = Map.empty[Int, Todo]
