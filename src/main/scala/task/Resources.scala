@@ -12,7 +12,6 @@ class Resources @Inject() (repo: ArrayBufferRepo) extends Controller {
     response.created(s"Todo was created with id = ${todo.id}")
   }
   post("/todos/next") { todo: Todo =>
-    println(s"About to move ${todo.id} - ${todo.detail}")
     repo.next(todo) match {
       case Some(doing) =>
         response.created(
