@@ -1,11 +1,7 @@
-import sbt.plugins.DependencyTreeKeys.dependencyDotFile
-
 scalaVersion := "2.13.8"
-//render dot file to `./dependencies.dot`
 lazy val versions = new {
 
   val releaseVersion = "21.2.0"
-  // All Twitter library releases are date versioned as YY.MM.patch
   val twLibVersion = releaseVersion
   val guice = "4.2.3"
   val jodaConvert = "1.5"
@@ -36,30 +32,23 @@ libraryDependencies ++= Seq(
   "net.codingwell" %% "scala-guice" % versions.scalaGuice,
   "org.joda" % "joda-convert" % versions.jodaConvert,
   "org.scala-lang" % "scalap" % scalaVersion.value,
-  "com.google.inject" % "guice" % versions.guice % Test,
-  "com.google.inject.extensions" % "guice-testlib" % versions.guice % Test,
-  "com.twitter" %% "finagle-stats" % versions.twLibVersion % Test,
   "org.slf4j" % "slf4j-simple" % versions.slf4j % "test-internal"
 )
 
-// https://mvnrepository.com/artifact/com.twitter/finatra-http
 libraryDependencies += "org.scalatest" %% "scalatest" % versions.scalaTest % "test"
-libraryDependencies += "com.twitter" %% "finatra-http" % "21.2.0" % "test"
-libraryDependencies += "com.twitter" %% "inject-server" % "21.2.0" % "test"
-libraryDependencies += "com.twitter" %% "inject-app" % "21.2.0" % "test"
-libraryDependencies += "com.twitter" %% "inject-core" % "21.2.0" % "test"
-libraryDependencies += "com.twitter" %% "inject-modules" % "21.2.0" % "test"
+libraryDependencies += "com.twitter" %% "finatra-http" % versions.finatra % "test"
+libraryDependencies += "com.twitter" %% "inject-server" % versions.finatra % "test"
+libraryDependencies += "com.twitter" %% "inject-app" % versions.finatra % "test"
+libraryDependencies += "com.twitter" %% "inject-core" % versions.finatra % "test"
+libraryDependencies += "com.twitter" %% "inject-modules" % versions.finatra % "test"
 libraryDependencies += "com.google.inject.extensions" % "guice-testlib" % "5.1.0" % "test"
-libraryDependencies += "com.twitter" %% "finatra-jackson" % "21.2.0" % "test"
+libraryDependencies += "com.twitter" %% "finatra-jackson" % versions.finatra % "test"
 
 libraryDependencies += "com.twitter" %% "finatra-http-server" % "21.3.0" % "test" classifier "tests"
-libraryDependencies += "com.twitter" %% "finatra-http" % "21.2.0" % "test" classifier "tests"
-libraryDependencies += "com.twitter" %% "inject-server" % "21.2.0" % "test" classifier "tests"
-libraryDependencies += "com.twitter" %% "inject-app" % "21.2.0" % "test" classifier "tests"
-libraryDependencies += "com.twitter" %% "inject-core" % "21.2.0" % "test" classifier "tests"
-libraryDependencies += "com.twitter" %% "inject-modules" % "21.2.0" % "test" classifier "tests"
+libraryDependencies += "com.twitter" %% "finatra-http" % versions.finatra % "test" classifier "tests"
+libraryDependencies += "com.twitter" %% "inject-server" % versions.finatra % "test" classifier "tests"
+libraryDependencies += "com.twitter" %% "inject-app" % versions.finatra % "test" classifier "tests"
+libraryDependencies += "com.twitter" %% "inject-core" % versions.finatra % "test" classifier "tests"
+libraryDependencies += "com.twitter" %% "inject-modules" % versions.finatra % "test" classifier "tests"
 libraryDependencies += "com.google.inject.extensions" % "guice-testlib" % "5.1.0" % "test" classifier "tests"
-libraryDependencies += "com.twitter" %% "finatra-jackson" % "21.2.0" % "test" classifier "tests"
-
-// https://mvnrepository.com/artifact/org.specs2/specs2-core
-//libraryDependencies += "org.specs2" %% "specs2-core" % "5.0.0" % Test
+libraryDependencies += "com.twitter" %% "finatra-jackson" % versions.finatra % "test" classifier "tests"
