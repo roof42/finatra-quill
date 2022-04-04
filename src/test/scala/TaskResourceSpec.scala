@@ -3,7 +3,7 @@ import com.twitter.finatra.http.EmbeddedHttpServer
 import com.twitter.inject.server.FeatureTest
 import scala.collection.immutable.ListMap
 
-class HelloControllerSpec extends FeatureTest {
+class TaskResourceSpec extends FeatureTest {
   override val server = new EmbeddedHttpServer(twitterServer = new MainServer)
 
   test("ExampleServer#perform feature") {
