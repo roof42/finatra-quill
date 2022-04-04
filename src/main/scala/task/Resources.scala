@@ -2,7 +2,7 @@ package task
 import com.twitter.finatra.http.Controller
 import com.twitter.finagle.http.Request
 import com.google.inject.Inject
-import task._
+
 class Resources @Inject() (service: TaskService) extends Controller {
   get("/ping") { _: Request => response.accepted("pong") }
 
