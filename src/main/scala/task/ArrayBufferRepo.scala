@@ -1,7 +1,7 @@
 package task
 
 import scala.collection.mutable.Map
-import com.google.inject.Inject
+
 object ArrayBufferRepo {
   def apply(
       todoList: Map[Int, Todo] = Map.empty[Int, Todo],
@@ -15,6 +15,7 @@ object ArrayBufferRepo {
     ab
   }
 }
+
 class ArrayBufferRepo {
   var todoList: Map[Int, Todo] = Map.empty[Int, Todo]
   var doingList: Map[Int, Doing] = Map.empty[Int, Doing]
