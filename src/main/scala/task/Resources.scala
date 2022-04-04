@@ -3,18 +3,18 @@ import com.twitter.finatra.http.Controller
 import com.twitter.finagle.http.Request
 import com.google.inject.Inject
 import task._
-class Resources @Inject() (repo: ArrayBufferRepo) extends Controller {
+class Resources @Inject() (service: TaskService) extends Controller {
   get("/ping") { _: Request => response.accepted("pong") }
 
-  get("/todos") { _: Request => repo.getAllTodos() }
+  get("/todos") { _: Request => service.getAllTodos() }
 
   post("/todos") { plan: Plan =>
-    val todo = repo.createTodo(plan)
+    val todo = service.createTodo(plan)
     response.created(s"Todo was created with id = ${todo.id}")
   }
 
   post("/todos/next") { todo: Todo =>
-    repo.next(todo) match {
+    service.next(todo) match {
       case Some(doing) =>
         response.created(
           s"Task number ${doing.asInstanceOf[Doing].id} was moved to doing list"
@@ -23,7 +23,7 @@ class Resources @Inject() (repo: ArrayBufferRepo) extends Controller {
     }
   }
 
-  get("/doings") { _: Request => repo.getAllDoings() }
+  get("/doings") { _: Request => service.getAllDoings() }
 
-  post("/doing/next") { doing: Doing => repo.next(doing) }
+  post("/doing/next") { doing: Doing => service.next(doing) }
 }

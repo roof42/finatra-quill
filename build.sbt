@@ -14,3 +14,5 @@ libraryDependencies += "com.twitter" %% "finatra-http" % versions.finatra
 libraryDependencies += "ch.qos.logback" % "logback-classic" % versions.logback
 libraryDependencies += "io.getquill" %% "quill-jdbc" % "3.16.2"
 libraryDependencies += "org.postgresql" % "postgresql" % "42.3.3"
+
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"

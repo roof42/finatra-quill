@@ -2,13 +2,13 @@ package task
 
 import scala.collection.mutable.Map
 
-class ArrayBufferRepo {
-  val todoList: Map[Int, Todo] = Map.empty[Int, Todo]
-  val doingList: Map[Int, Doing] = Map.empty[Int, Doing]
-  val doneList: Map[Int, Done] = Map.empty[Int, Done]
-
-  def getAllTodos(): Map[Int, Todo] = todoList
-  def getAllDoings(): Map[Int, Doing] = doingList
+case class ArrayBufferRepo(
+     todoList: Map[Int, Todo] = Map.empty[Int, Todo],
+     doingList: Map[Int, Doing] = Map.empty[Int, Doing],
+     doneList: Map[Int, Done] = Map.empty[Int, Done]
+) {
+  def getAllTodos(): List[Todo] = todoList.values.toList
+  def getAllDoings(): List[Doing] = doingList.values.toList
 
   def createTodo(plan: Plan): Todo = {
     val newTodo = todoList.lastOption match {
@@ -21,40 +21,29 @@ class ArrayBufferRepo {
 
   def next(task: Task): Option[Task] = {
     task match {
-      case Todo(id, _, _) =>
-        moveTaskToDoing(id)
-      case Doing(id, _, _) =>
-        moveTaskToDone(id)
+      case t: Todo =>
+        val todo = fetchTaskFromList(t)
+        val doing = Doing(todo.get.id, todo.get.detail)
+        doingList += (doing.id -> doing)
+        Some(doing)
+      case d: Doing =>
+        val doing = fetchTaskFromList(d)
+        val done = Done(doing.get.id, doing.get.detail)
+        doneList += (done.id -> done)
+        Some(done)
       case _ => Some(task.asInstanceOf[Done])
     }
   }
 
-  private def moveTaskToDone(id: Int): Option[Done] = {
-    val done = doingList.get(id) match {
-      case Some(doing) =>
-        doingList.remove(doing.id)
-        Some(Done(doing.id, doing.detail))
-      case None => None
+  def fetchTaskFromList(task: Task) = {
+    val targetList = task match {
+      case _: Todo  => todoList
+      case _: Doing => doingList
     }
-    done match {
-      case Some(done) =>
-        doneList += (done.id -> done)
-        Some(done)
-      case None => None
-    }
-  }
-
-  private def moveTaskToDoing(id: Int): Option[Doing] = {
-    val doing = todoList.get(id) match {
-      case Some(todo) =>
-        todoList.remove(todo.id)
-        Some(Doing(todo.id, todo.detail))
-      case None => None
-    }
-    doing match {
-      case Some(doing) =>
-        doingList += (doing.id -> doing)
-        Some(doing)
+    targetList.get(task.id) match {
+      case Some(value) =>
+        todoList.remove(task.id)
+        Some(value)
       case None => None
     }
   }
