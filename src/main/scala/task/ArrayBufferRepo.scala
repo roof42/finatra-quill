@@ -1,12 +1,25 @@
 package task
 
 import scala.collection.mutable.Map
+import com.google.inject.Inject
+object ArrayBufferRepo {
+  def apply(
+      todoList: Map[Int, Todo] = Map.empty[Int, Todo],
+      doingList: Map[Int, Doing] = Map.empty[Int, Doing],
+      doneList: Map[Int, Done] = Map.empty[Int, Done]
+  ): ArrayBufferRepo = {
+    val ab = new ArrayBufferRepo()
+    ab.todoList = todoList
+    ab.doingList = doingList
+    ab.doneList = doneList
+    ab
+  }
+}
+class ArrayBufferRepo {
+  var todoList: Map[Int, Todo] = Map.empty[Int, Todo]
+  var doingList: Map[Int, Doing] = Map.empty[Int, Doing]
+  var doneList: Map[Int, Done] = Map.empty[Int, Done]
 
-case class ArrayBufferRepo(
-    todoList: Map[Int, Todo] = Map.empty[Int, Todo],
-    doingList: Map[Int, Doing] = Map.empty[Int, Doing],
-    doneList: Map[Int, Done] = Map.empty[Int, Done]
-) {
   def getAllItemsInTodo(): List[Todo] = todoList.values.toList
   def getAllItemsInDoing(): List[Doing] = doingList.values.toList
   def getAllItemsInDone(): List[Done] = doneList.values.toList
