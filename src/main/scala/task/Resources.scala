@@ -6,7 +6,7 @@ import task._
 class Resources @Inject() (service: TaskService) extends Controller {
   get("/ping") { _: Request => response.accepted("pong") }
 
-  get("/todos") { _: Request => service.getAllTodos() }
+  get("/todos") { _: Request => service.getAllItemsInTodo() }
 
   post("/todos") { plan: Plan =>
     val todo = service.createTodo(plan)
@@ -23,7 +23,7 @@ class Resources @Inject() (service: TaskService) extends Controller {
     }
   }
 
-  get("/doings") { _: Request => service.getAllDoings() }
+  get("/doings") { _: Request => service.getAllItemsInDoing() }
 
   post("/doing/next") { doing: Doing => service.next(doing) }
 }

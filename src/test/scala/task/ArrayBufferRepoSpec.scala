@@ -16,7 +16,7 @@ class ArrayBufferRepoSpec extends AnyFlatSpec {
     val repo = ArrayBufferRepo(
       todoList = Map(0 -> Todo(id = 0, detail = "buy banana"))
     )
-    val todo = repo.getAllTodos().head
+    val todo = repo.getAllItemsInTodo().head
 
     val doing = repo.next(todo)
 
@@ -24,14 +24,25 @@ class ArrayBufferRepoSpec extends AnyFlatSpec {
   }
 
   it should "has empty todoList after move 1 item out" in {
-    val repo =  ArrayBufferRepo(
+    val repo = ArrayBufferRepo(
       todoList = Map(0 -> Todo(id = 0, detail = "buy banana"))
     )
-    val todo = repo.getAllTodos().head
+    val todo = repo.getAllItemsInTodo().head
 
     repo.next(todo)
 
-    assert(repo.getAllTodos().size == 0)
-    assert(repo.getAllDoings().size == 1)
+    assert(repo.getAllItemsInTodo().size == 0)
+    assert(repo.getAllItemsInDoing().size == 1)
+  }
+
+  it should "stay in done if it is already done" in {
+    val repo = ArrayBufferRepo(
+      doneList = Map(0 -> Done(id = 0, detail = "buy banana"))
+    )
+    val done = repo.getAllItemsInDone().head
+
+    repo.next(done)
+
+    assert(repo.getAllItemsInDone().size == 1)
   }
 }

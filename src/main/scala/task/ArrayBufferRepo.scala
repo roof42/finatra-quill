@@ -3,12 +3,13 @@ package task
 import scala.collection.mutable.Map
 
 case class ArrayBufferRepo(
-     todoList: Map[Int, Todo] = Map.empty[Int, Todo],
-     doingList: Map[Int, Doing] = Map.empty[Int, Doing],
-     doneList: Map[Int, Done] = Map.empty[Int, Done]
+    todoList: Map[Int, Todo] = Map.empty[Int, Todo],
+    doingList: Map[Int, Doing] = Map.empty[Int, Doing],
+    doneList: Map[Int, Done] = Map.empty[Int, Done]
 ) {
-  def getAllTodos(): List[Todo] = todoList.values.toList
-  def getAllDoings(): List[Doing] = doingList.values.toList
+  def getAllItemsInTodo(): List[Todo] = todoList.values.toList
+  def getAllItemsInDoing(): List[Doing] = doingList.values.toList
+  def getAllItemsInDone(): List[Done] = doneList.values.toList
 
   def createTodo(plan: Plan): Todo = {
     val newTodo = todoList.lastOption match {
