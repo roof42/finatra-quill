@@ -6,7 +6,7 @@ import scala.collection.immutable.ListMap
 class TaskResourceSpec extends FeatureTest {
   override val server = new EmbeddedHttpServer(twitterServer = new MainServer)
 
-  test("ExampleServer#perform feature") {
+  test("Ping should return Accepted") {
     server.httpGet(path = "/ping", andExpect = Status.Accepted)
   }
 }
