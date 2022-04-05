@@ -7,6 +7,7 @@ import com.twitter.inject.Logging
 class Resources @Inject() (service: TaskService)
     extends Controller
     with Logging {
+
   get("/ping") { _: Request =>
     info(s"accepted ping")
     response.accepted("pong")
@@ -31,5 +32,15 @@ class Resources @Inject() (service: TaskService)
 
   get("/doings") { _: Request => service.getAllItemsInDoing() }
 
-  post("/doing/next") { doing: Doing => service.next(doing) }
+  post("/doing/next") { doing: Doing =>
+    service.next(doing) match {
+      case Some(done) =>
+        response.accepted(
+          s"Task number ${done.asInstanceOf[Done].id} was moved to doing list"
+        )
+      case None => response.badRequest("Invalid id")
+    }
+  }
+
+  get("/dones") { _: Request => service.getAllItemsInDone() }
 }
