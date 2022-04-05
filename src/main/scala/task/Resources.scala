@@ -2,9 +2,15 @@ package task
 import com.twitter.finatra.http.Controller
 import com.twitter.finagle.http.Request
 import com.google.inject.Inject
+import com.twitter.inject.Logging
 
-class Resources @Inject() (service: TaskService) extends Controller {
-  get("/ping") { _: Request => response.accepted("pong") }
+class Resources @Inject() (service: TaskService)
+    extends Controller
+    with Logging {
+  get("/ping") { _: Request =>
+    info(s"accepted ping")
+    response.accepted("pong")
+  }
 
   get("/todos") { _: Request => service.getAllItemsInTodo() }
 
