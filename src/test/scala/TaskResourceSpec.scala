@@ -47,4 +47,23 @@ class TaskResourceSpec extends FeatureTest {
     )
   }
 
+  test("Move item from doing to done") {
+    server.httpPost(
+      "/doing/next",
+      postBody = """
+      |{
+      |"id":0,
+      |"detail":"some detail",
+      |"postedAt":""
+      |}
+      """.stripMargin,
+      andExpect = Status.Accepted
+    )
+    server.httpGet(path = "/doings", andExpect = Status.Ok, withJsonBody = "[]")
+    val json = server.httpGet(path = "/dones", andExpect = Status.Ok)
+    assert(
+      json.contentString.toString().split(',').apply(0).contains("0") == true
+    )
+  }
+
 }
