@@ -35,31 +35,43 @@ class ArrayBufferRepo {
   }
 
   def next(task: Task): Option[Task] = {
-    task match {
-      case t: Todo =>
-        val todo = fetchTaskFromList(t)
-        val doing = Doing(todo.get.id, todo.get.detail)
-        doingList += (doing.id -> doing)
-        Some(doing)
-      case d: Doing =>
-        val doing = fetchTaskFromList(d)
-        val done = Done(doing.get.id, doing.get.detail)
-        doneList += (done.id -> done)
-        Some(done)
-      case _ => Some(task.asInstanceOf[Done])
+    val option = task match {
+      case Done(_, _, _) => None
+      case _             => fetchTaskFromList(task)
+    }
+    option match {
+      case Some(task) => moveTaskToNextList(task)
+      case None       => None
     }
   }
 
-  def fetchTaskFromList(task: Task) = {
-    val targetList = task match {
-      case _: Todo  => todoList
-      case _: Doing => doingList
+  def fetchTaskFromList(task: Task): Option[Task] = {
+    val (t, targetList) = task match {
+      case todo: Todo   => (todo, todoList)
+      case doing: Doing => (doing, doingList)
+      case done: Done   => (done, doneList)
     }
-    targetList.get(task.id) match {
+    val target = targetList.get(t.id)
+    target match {
       case Some(value) =>
-        targetList.remove(task.id)
+        targetList.remove(value.id)
         Some(value)
       case None => None
+    }
+  }
+
+  def moveTaskToNextList(task: Task): Option[Task] = {
+    task match {
+      case Todo(id, detail, _) =>
+        val doing = Doing(id, detail)
+        doingList += (id -> doing)
+        Some(doing)
+      case Doing(id, detail, _) =>
+        val done = Done(id, detail)
+        doneList += (id -> done)
+        Some(done)
+      case Done(id, detail, postedAt) =>
+        Some(Done(id, detail, postedAt))
     }
   }
 }
