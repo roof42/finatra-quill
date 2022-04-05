@@ -57,7 +57,7 @@ class ArrayBufferRepo {
     }
     targetList.get(task.id) match {
       case Some(value) =>
-        todoList.remove(task.id)
+        targetList.remove(task.id)
         Some(value)
       case None => None
     }
