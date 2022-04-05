@@ -8,4 +8,16 @@ class TaskResourceSpec extends FeatureTest {
   test("Ping should return Accepted") {
     server.httpGet(path = "/ping", andExpect = Status.Accepted)
   }
+
+  test("Create new todo") {
+    server.httpPost(
+      path = "/todos",
+      postBody = """
+          |{
+          |"detail":"shekhar"
+          |}
+        """.stripMargin,
+      andExpect = Status.Created
+    )
+  }
 }
