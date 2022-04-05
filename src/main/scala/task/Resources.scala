@@ -22,7 +22,7 @@ class Resources @Inject() (service: TaskService)
   post("/todos/next") { todo: Todo =>
     service.next(todo) match {
       case Some(doing) =>
-        response.created(
+        response.accepted(
           s"Task number ${doing.asInstanceOf[Doing].id} was moved to doing list"
         )
       case None => response.badRequest("Invalid id")
