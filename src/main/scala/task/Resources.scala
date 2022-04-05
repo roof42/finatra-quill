@@ -33,7 +33,8 @@ class Resources @Inject() (service: TaskService)
   get("/doings") { _: Request => service.getAllItemsInDoing() }
 
   post("/doing/next") { doing: Doing =>
-    service.next(doing) match {
+    val result = service.next(doing)
+    result match {
       case Some(done) =>
         response.accepted(
           s"Task number ${done.asInstanceOf[Done].id} was moved to doing list"
