@@ -22,8 +22,8 @@ class ArrayBufferRepo {
 
   def next(task: Task): Option[Task] = {
     val option = task match {
-      case Todo(_, _, _) | Doing(_, _, _) => fetchTaskFromList(task)
-      case Done(_, _, _)                  => None
+      case _: Todo | _: Doing => fetchTaskFromList(task)
+      case _: Done            => None
     }
     option match {
       case Some(task) => moveTaskToNextList(task)
