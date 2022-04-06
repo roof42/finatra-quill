@@ -2,20 +2,6 @@ package task
 
 import scala.collection.mutable.Map
 
-object ArrayBufferRepo {
-  def apply(
-      todoList: Map[Int, Todo] = Map.empty[Int, Todo],
-      doingList: Map[Int, Doing] = Map.empty[Int, Doing],
-      doneList: Map[Int, Done] = Map.empty[Int, Done]
-  ): ArrayBufferRepo = {
-    val ab = new ArrayBufferRepo()
-    ab.todoList = todoList
-    ab.doingList = doingList
-    ab.doneList = doneList
-    ab
-  }
-}
-
 class ArrayBufferRepo {
   var todoList: Map[Int, Todo] = Map.empty[Int, Todo]
   var doingList: Map[Int, Doing] = Map.empty[Int, Doing]
@@ -60,15 +46,28 @@ class ArrayBufferRepo {
   }
 
   def moveTaskToNextList(task: Task): Option[Task] = {
-    task match {
+    val t = task match {
       case Todo(id, detail, _) =>
-        val doing = Doing(id, detail)
-        doingList += (id -> doing)
-        Some(doing)
+        doingList += (id -> Doing(id, detail))
+        doingList.last._2
       case Doing(id, detail, _) =>
-        val done = Done(id, detail)
-        doneList += (id -> done)
-        Some(done)
+        doneList += (id -> Done(id, detail))
+        doneList.last._2
     }
+    Some(t)
+  }
+}
+
+object ArrayBufferRepo {
+  def apply(
+      todoList: Map[Int, Todo] = Map.empty[Int, Todo],
+      doingList: Map[Int, Doing] = Map.empty[Int, Doing],
+      doneList: Map[Int, Done] = Map.empty[Int, Done]
+  ): ArrayBufferRepo = {
+    val ab = new ArrayBufferRepo()
+    ab.todoList = todoList
+    ab.doingList = doingList
+    ab.doneList = doneList
+    ab
   }
 }
