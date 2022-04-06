@@ -12,11 +12,13 @@ class ArrayBufferRepo {
   def getAllItemsInDone(): List[Done] = doneList.values.toList
 
   def createTodo(plan: Plan): Todo = {
-    val newTodo = todoList.lastOption match {
-      case Some(value) => Todo(value._1.intValue() + 1, plan.detail)
-      case None        => Todo(0, plan.detail)
+    val latestItemInTodo = todoList.lastOption
+    val newId = latestItemInTodo match {
+      case Some(todo) => todo._1 + 1
+      case None       => 0
     }
-    todoList += (newTodo.id -> newTodo)
+    val newTodo = Todo(newId, plan.detail)
+    todoList += (newId -> newTodo)
     newTodo
   }
 
