@@ -9,7 +9,7 @@ class Resources @Inject() (service: TaskService)
     with Logging {
 
   get("/ping") { _: Request =>
-    info(s"accepted ping")
+    info(s"Accepted ping")
     response.accepted("pong")
   }
 
