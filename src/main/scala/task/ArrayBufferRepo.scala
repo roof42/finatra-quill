@@ -36,8 +36,8 @@ class ArrayBufferRepo {
 
   def next(task: Task): Option[Task] = {
     val option = task match {
-      case Done(_, _, _) => None
-      case _             => fetchTaskFromList(task)
+      case Todo(_, _, _) | Doing(_, _, _) => fetchTaskFromList(task)
+      case Done(_, _, _)                  => None
     }
     option match {
       case Some(task) => moveTaskToNextList(task)
@@ -49,7 +49,6 @@ class ArrayBufferRepo {
     val (t, targetList) = task match {
       case todo: Todo   => (todo, todoList)
       case doing: Doing => (doing, doingList)
-      case done: Done   => (done, doneList)
     }
     val target = targetList.get(t.id)
     target match {
@@ -70,8 +69,6 @@ class ArrayBufferRepo {
         val done = Done(id, detail)
         doneList += (id -> done)
         Some(done)
-      case Done(id, detail, postedAt) =>
-        Some(Done(id, detail, postedAt))
     }
   }
 }
