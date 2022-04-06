@@ -12,8 +12,8 @@ class ArrayBufferRepo {
   def getAllItemsInDone(): List[Done] = doneList.values.toList
 
   def createTodo(plan: Plan): Todo = {
-    val latestItemInTodo = todoList.lastOption
-    val newId = latestItemInTodo match {
+    val lastOption = todoList.lastOption
+    val newId = lastOption match {
       case Some(todo) => todo._1 + 1
       case None       => 0
     }
